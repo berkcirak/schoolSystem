@@ -4,16 +4,9 @@ import jakarta.persistence.*;
 
 import java.util.List;
 
-@Entity
 @Table(name = "tbl_students")
-public class Student {
+public class Student extends User{
 
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Id
-    private int id;
-
-    private String username;
-    private String password;
     private String firstName;
     private String lastName;
     private int age;
@@ -23,39 +16,23 @@ public class Student {
 
     public Student(){}
 
-    public Student(int id, String username, String password, String firstName, String lastName, int age, String country) {
-        this.id = id;
-        this.username = username;
-        this.password = password;
+    public Student(String firstName, String lastName, int age, String country, List<Lesson> lessonList) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.age = age;
         this.country = country;
+        this.lessonList = lessonList;
     }
 
-    public int getId() {
-        return id;
+    public List<Lesson> getLessonList() {
+        return lessonList;
     }
 
-    public void setId(int id) {
-        this.id = id;
+    public void setLessonList(List<Lesson> lessonList) {
+        this.lessonList = lessonList;
     }
 
-    public String getUsername() {
-        return username;
-    }
 
-    public void setUsername(String username) {
-        this.username = username;
-    }
-
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
-    }
 
     public String getFirstName() {
         return firstName;

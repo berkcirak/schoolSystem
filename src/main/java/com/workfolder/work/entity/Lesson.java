@@ -19,6 +19,14 @@ public class Lesson {
 
     public Lesson(){}
 
+    public Teacher getTeacher() {
+        return teacher;
+    }
+
+    public void setTeacher(Teacher teacher) {
+        this.teacher = teacher;
+    }
+
     public int getId() {
         return id;
     }

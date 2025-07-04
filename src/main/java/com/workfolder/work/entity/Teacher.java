@@ -4,23 +4,64 @@ import jakarta.persistence.*;
 
 import java.util.List;
 
-@Entity
 @Table(name = "tbl_teachers")
-public class Teacher {
+public class Teacher extends User{
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
-    private String username;
     private String firstName;
     private String lastName;
-    private String age;
+    private int age;
     private String country;
     @OneToMany
     private List<Lesson> lessonList;
 
+    public Teacher(String firstName, String lastName, int age, String country, List<Lesson> lessonList) {
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.age = age;
+        this.country = country;
+        this.lessonList = lessonList;
+    }
+    public Teacher(){}
 
 
 
+    public String getFirstName() {
+        return firstName;
+    }
 
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
+    }
+
+    public String getLastName() {
+        return lastName;
+    }
+
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
+    }
+
+    public int getAge() {
+        return age;
+    }
+
+    public void setAge(int age) {
+        this.age = age;
+    }
+
+    public String getCountry() {
+        return country;
+    }
+
+    public void setCountry(String country) {
+        this.country = country;
+    }
+
+    public List<Lesson> getLessonList() {
+        return lessonList;
+    }
+
+    public void setLessonList(List<Lesson> lessonList) {
+        this.lessonList = lessonList;
+    }
 }
