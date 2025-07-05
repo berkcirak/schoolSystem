@@ -5,6 +5,7 @@ import jakarta.persistence.*;
 import java.util.List;
 
 @Table(name = "tbl_students")
+@Entity
 public class Student extends User{
 
     private String firstName;
