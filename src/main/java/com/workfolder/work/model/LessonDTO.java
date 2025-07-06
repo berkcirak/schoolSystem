@@ -7,10 +7,6 @@ public class LessonDTO {
     private String name;
     private String teacher;
 
-    public LessonDTO(String name, String teacher) {
-        this.name = name;
-        this.teacher = teacher;
-    }
     public LessonDTO(Lesson lesson){
         this.name = lesson.getName();
         this.teacher = lesson.getTeacher().getUsername();
