@@ -2,6 +2,7 @@ package com.workfolder.work.model;
 
 import com.workfolder.work.entity.Lesson;
 import com.workfolder.work.entity.Student;
+import com.workfolder.work.entity.User;
 
 import java.util.List;
 
@@ -14,6 +15,7 @@ public class StudentDTO {
     private Integer age;
     private String country;
     private List<Lesson> lessonList;
+    private User.UserType userType;
 
     public StudentDTO(Student student){
         this.username=student.getUsername();
@@ -23,7 +25,18 @@ public class StudentDTO {
         this.password=student.getPassword();
         this.country=student.getCountry();
         this.lessonList=student.getLessonList();
+        this.userType=student.getUserType();
     }
+
+    public User.UserType getUserType() {
+        return userType;
+    }
+
+    public void setUserType(User.UserType userType) {
+        this.userType = userType;
+    }
+
+    public StudentDTO(){}
 
     public String getUsername() {
         return username;
