@@ -11,6 +11,7 @@ public class LessonDTO {
         this.name = lesson.getName();
         this.teacher = lesson.getTeacher().getUsername();
     }
+    public LessonDTO(){}
 
     public String getName() {
         return name;

@@ -27,7 +27,7 @@ public class TeacherController {
         return jwtService.generateToken(teacher.getUsername());
     }
     @PostMapping("/login")
-    public String loginUser(Teacher teacher){
+    public String loginTeacher(@RequestBody Teacher teacher){
         return teacherService.verify(teacher);
     }
     @GetMapping("/list")
@@ -44,7 +44,7 @@ public class TeacherController {
         return teacherService.getTeacherProfile();
     }
     @PutMapping("/update/{teacherId}")
-    public String updateTeacher(@PathVariable int teacherId, TeacherDTO teacherDTO){
+    public String updateTeacher(@PathVariable int teacherId, @RequestBody TeacherDTO teacherDTO){
         teacherService.updateTeacher(teacherId, teacherDTO);
         return jwtService.generateToken(teacherDTO.getUsername());
     }

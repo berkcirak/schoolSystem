@@ -12,7 +12,7 @@ public class Teacher extends User{
     private String lastName;
     private Integer age;
     private String country;
-    @OneToMany
+    @OneToMany(mappedBy = "teacher")
     private List<Lesson> lessonList;
 
     public Teacher(String firstName, String lastName, Integer age, String country, List<Lesson> lessonList) {

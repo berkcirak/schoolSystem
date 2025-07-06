@@ -8,21 +8,23 @@ import com.workfolder.work.repository.TeacherRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
 public class LessonService {
 
     private LessonRepository lessonRepository;
-    private TeacherRepository teacherRepository;
-    public LessonService(LessonRepository lessonRepository, TeacherRepository teacherRepository){
+    private TeacherService teacherService;
+    public LessonService(LessonRepository lessonRepository, TeacherService teacherService){
         this.lessonRepository=lessonRepository;
-        this.teacherRepository=teacherRepository;
+        this.teacherService=teacherService;
     }
 
-    public Lesson createLesson(Lesson lesson){
-        return lessonRepository.save(lesson);
+    public LessonDTO createLesson(Lesson lesson){
+        Teacher teacher = teacherService.getAuthenticatedTeacher();
+        lesson.setTeacher(teacher);
+        Lesson theLesson=lessonRepository.save(lesson);
+        return new LessonDTO(theLesson);
     }
     public List<LessonDTO> getLessons(){
         List<Lesson> lessonList = lessonRepository.findAll();
@@ -35,24 +37,23 @@ public class LessonService {
         return new LessonDTO(lesson);
     }
     public LessonDTO updateLesson(int lessonId, LessonDTO lessonDTO){
+        Teacher teacher = teacherService.getAuthenticatedTeacher();
         Lesson lesson = lessonRepository.findById(lessonId).orElseThrow(()->new RuntimeException("Lesson not found by id: "+lessonId));
-        if (lesson.getId() != lessonId){
-            throw new RuntimeException("Wrong lesson id");
+        if (teacher.getId() != lesson.getTeacher().getId()){
+            throw new RuntimeException("You are not authorized for update this lesson");
         }
         if (lessonDTO.getName() != null){
             lesson.setName(lessonDTO.getName());
-        }
-        if (lessonDTO.getTeacher() != null){
-            Teacher teacher = teacherRepository.findByUsername(lessonDTO.getTeacher());
-            if (teacher == null){
-                throw new RuntimeException("Teacher not found with username: "+lessonDTO.getTeacher());
-            }
-            lesson.setTeacher(teacher);
         }
         lessonRepository.save(lesson);
         return new LessonDTO(lesson);
     }
     public void deleteLesson(int lessonId){
+        Teacher teacher = teacherService.getAuthenticatedTeacher();
+        Lesson lesson = lessonRepository.findById(lessonId).orElseThrow(()->new RuntimeException("Lesson not found by id: "+lessonId));
+        if (teacher.getId() != lesson.getTeacher().getId()){
+            throw new RuntimeException("You are not authorized for delete this lesson");
+        }
         lessonRepository.deleteById(lessonId);
     }
 

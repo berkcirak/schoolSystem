@@ -1,7 +1,11 @@
 package com.workfolder.work.model;
 
+import com.workfolder.work.entity.Lesson;
 import com.workfolder.work.entity.Teacher;
 import com.workfolder.work.entity.User;
+
+import java.util.List;
+import java.util.stream.Collectors;
 
 public class TeacherDTO {
 
@@ -12,6 +16,7 @@ public class TeacherDTO {
     private Integer age;
     private String country;
     private User.UserType userType;
+    private List<String> lessonList;
 
 
     public TeacherDTO(Teacher teacher){
@@ -22,6 +27,21 @@ public class TeacherDTO {
         this.age=teacher.getAge();
         this.country=teacher.getCountry();
         this.userType=teacher.getUserType();
+        if (teacher.getLessonList() != null){
+            this.lessonList = teacher.getLessonList()
+                    .stream()
+                    .map(Lesson::getName)
+                    .collect(Collectors.toList());
+        }
+    }
+    public TeacherDTO(){}
+
+    public List<String> getLessonList() {
+        return lessonList;
+    }
+
+    public void setLessonList(List<String> lessonList) {
+        this.lessonList = lessonList;
     }
 
     public String getUsername() {
