@@ -1,6 +1,7 @@
 package com.workfolder.work.service;
 
 import com.workfolder.work.entity.Student;
+import com.workfolder.work.entity.User;
 import com.workfolder.work.model.StudentDTO;
 import com.workfolder.work.repository.StudentRepository;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -30,6 +31,7 @@ public class StudentService {
 
     public Student createStudent(Student student){
         student.setPassword(bCryptPasswordEncoder.encode(student.getPassword()));
+        student.setUserType(User.UserType.STUDENT);
         return studentRepository.save(student);
     }
     public List<StudentDTO> getStudents(){
@@ -41,6 +43,44 @@ public class StudentService {
     public StudentDTO getStudentById(int studentId){
         Student student = studentRepository.findById(studentId).orElseThrow(()-> new RuntimeException("Student not found by id: "+studentId));
         return new StudentDTO(student);
+    }
+
+    public StudentDTO updateStudent(StudentDTO studentDTO, int studentId){
+        Student theStudent = getAuthenticatedStudent();
+        if (theStudent.getId() != studentId){
+            throw new RuntimeException("You are not authorized to update this user");
+        }
+        if (studentDTO.getUsername() != null){
+            theStudent.setUsername(studentDTO.getUsername());
+        }
+        if (studentDTO.getAge() != null){
+            theStudent.setAge(studentDTO.getAge());
+        }
+        if (studentDTO.getCountry() != null){
+            theStudent.setCountry(studentDTO.getCountry());
+        }
+        if (studentDTO.getFirstName() != null){
+            theStudent.setFirstName(studentDTO.getFirstName());
+        }
+        if (studentDTO.getLastName() != null){
+            theStudent.setLastName(studentDTO.getLastName());
+        }
+        if (studentDTO.getLessonList() != null){
+            theStudent.setLessonList(studentDTO.getLessonList());
+        }
+        if (studentDTO.getPassword() != null){
+            theStudent.setPassword(bCryptPasswordEncoder.encode(studentDTO.getPassword()));
+        }
+        studentRepository.save(theStudent);
+        return new StudentDTO(theStudent);
+
+    }
+    public void deleteStudent(int studentId){
+        Student student = getAuthenticatedStudent();
+        if (student.getId() != studentId){
+            throw new RuntimeException("You are not authorized for delete this user");
+        }
+        studentRepository.deleteById(studentId);
     }
 
     public Student getAuthenticatedStudent(){
@@ -60,6 +100,16 @@ public class StudentService {
             return jwtService.generateToken(student.getUsername());
         }
         return "fail";
+    }
+
+    public Student getStudentProfile(){
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        if (authentication != null && authentication.getPrincipal() instanceof UserDetails){
+            String username = ((UserDetails) authentication.getPrincipal()).getUsername();
+            return studentRepository.findByUsername(username);
+        }
+
+        throw new RuntimeException("Student not found");
     }
 
 

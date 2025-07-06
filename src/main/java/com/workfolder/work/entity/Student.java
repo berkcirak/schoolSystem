@@ -10,7 +10,7 @@ public class Student extends User{
 
     private String firstName;
     private String lastName;
-    private int age;
+    private Integer age;
     private String country;
     @ManyToMany
     private List<Lesson> lessonList;
