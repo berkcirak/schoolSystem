@@ -2,6 +2,7 @@ package com.workfolder.work.controller;
 
 import com.workfolder.work.entity.Lesson;
 import com.workfolder.work.model.LessonDTO;
+import com.workfolder.work.response.LessonResponse;
 import com.workfolder.work.service.LessonService;
 import org.springframework.web.bind.annotation.*;
 
@@ -26,6 +27,10 @@ public class LessonController {
     @GetMapping("/{lessonId}")
     public LessonDTO getLesson(@PathVariable int lessonId){
         return lessonService.getLessonById(lessonId);
+    }
+    @GetMapping("/list/{teacherId}")
+    public List<LessonResponse> getLessonsByTeacher(@PathVariable int teacherId){
+        return lessonService.getLessonsByTeacher(teacherId);
     }
     @PutMapping("/update/{lessonId}")
     public LessonDTO updateLesson(@PathVariable int lessonId, @RequestBody LessonDTO lessonDTO){

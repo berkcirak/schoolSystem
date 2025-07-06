@@ -5,6 +5,7 @@ import com.workfolder.work.entity.Teacher;
 import com.workfolder.work.model.LessonDTO;
 import com.workfolder.work.repository.LessonRepository;
 import com.workfolder.work.repository.TeacherRepository;
+import com.workfolder.work.response.LessonResponse;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -35,6 +36,12 @@ public class LessonService {
     public LessonDTO getLessonById(int lessonId){
         Lesson lesson = lessonRepository.findById(lessonId).orElseThrow(()->new RuntimeException("Lesson not found by id: "+lessonId));
         return new LessonDTO(lesson);
+    }
+    public List<LessonResponse> getLessonsByTeacher(int teacherId){
+        List<Lesson> lessonList = lessonRepository.findAllByTeacherId(teacherId);
+        return lessonList.stream()
+                .map(LessonResponse::new)
+                .collect(Collectors.toList());
     }
     public LessonDTO updateLesson(int lessonId, LessonDTO lessonDTO){
         Teacher teacher = teacherService.getAuthenticatedTeacher();
