@@ -30,7 +30,7 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity) throws Exception{
         httpSecurity.csrf(customizer -> customizer.disable());
-        httpSecurity.authorizeHttpRequests(request -> request.requestMatchers("student/login", "student/register").permitAll()
+        httpSecurity.authorizeHttpRequests(request -> request.requestMatchers("student/login", "student/register", "teacher/register", "teacher/login").permitAll()
                 .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll()
                 .anyRequest().authenticated());
         httpSecurity.httpBasic(Customizer.withDefaults());

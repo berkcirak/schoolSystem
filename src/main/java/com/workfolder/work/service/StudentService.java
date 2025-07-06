@@ -102,13 +102,13 @@ public class StudentService {
         return "fail";
     }
 
-    public Student getStudentProfile(){
+    public StudentDTO getStudentProfile(){
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         if (authentication != null && authentication.getPrincipal() instanceof UserDetails){
             String username = ((UserDetails) authentication.getPrincipal()).getUsername();
-            return studentRepository.findByUsername(username);
+            Student theStudent = studentRepository.findByUsername(username);
+            return new StudentDTO(theStudent);
         }
-
         throw new RuntimeException("Student not found");
     }
 

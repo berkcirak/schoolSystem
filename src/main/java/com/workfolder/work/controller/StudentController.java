@@ -39,7 +39,7 @@ public class StudentController {
         return studentService.getStudents();
     }
     @GetMapping("/profile")
-    public Student getStudentProfile(){
+    public StudentDTO getStudentProfile(){
         return studentService.getStudentProfile();
     }
     @PutMapping("/update/{studentId}")

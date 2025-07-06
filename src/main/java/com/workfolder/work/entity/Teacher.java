@@ -10,12 +10,12 @@ public class Teacher extends User{
 
     private String firstName;
     private String lastName;
-    private int age;
+    private Integer age;
     private String country;
     @OneToMany
     private List<Lesson> lessonList;
 
-    public Teacher(String firstName, String lastName, int age, String country, List<Lesson> lessonList) {
+    public Teacher(String firstName, String lastName, Integer age, String country, List<Lesson> lessonList) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.age = age;
@@ -42,11 +42,11 @@ public class Teacher extends User{
         this.lastName = lastName;
     }
 
-    public int getAge() {
+    public Integer getAge() {
         return age;
     }
 
-    public void setAge(int age) {
+    public void setAge(Integer age) {
         this.age = age;
     }
 
