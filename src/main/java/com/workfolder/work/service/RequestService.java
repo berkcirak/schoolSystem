@@ -6,7 +6,6 @@ import com.workfolder.work.entity.Student;
 import com.workfolder.work.entity.Teacher;
 import com.workfolder.work.model.LessonDTO;
 import com.workfolder.work.model.RequestDTO;
-import com.workfolder.work.repository.LessonRepository;
 import com.workfolder.work.repository.RequestRepository;
 import org.springframework.stereotype.Service;
 
@@ -32,15 +31,17 @@ public class RequestService {
     //create request to lesson for student
     public RequestDTO createRequest(int lessonId){
         Student student = studentService.getAuthenticatedStudent();
-        LessonDTO lesson = lessonService.getLessonById(lessonId);
+        Lesson lesson = lessonService.getLessonByIdForRequestService(lessonId);
+        Teacher teacher = lesson.getTeacher();
         List<Request> existingRequest = requestRepository.findByStudentIdAndStatus(student.getId(), Request.RequestStatus.PENDING);
         boolean alreadyRequested = existingRequest.stream()
                 .anyMatch(request -> request.getLesson().getId() == lessonId);
         if (alreadyRequested){
             throw new RuntimeException("You have already requested this lesson");
         }
-        Request request = new Request(student, (new Lesson(lesson)).getTeacher(), new Lesson(lesson));
-        return new RequestDTO(request);
+        Request request =new Request(student, teacher, lesson);
+        Request savedRequest = requestRepository.save(request);
+        return new RequestDTO(savedRequest);
     }
     //return pending requests for teacher
     public List<RequestDTO> getPendingRequestsForTeacher(){

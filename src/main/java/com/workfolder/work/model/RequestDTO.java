@@ -16,7 +16,6 @@ public class RequestDTO {
 
     public RequestDTO(){}
     public RequestDTO(Request request){
-        this.id=request.getId();
         this.studentName=request.getStudent().getUsername();
         this.lessonName=request.getLesson().getName();
         this.teacherName=request.getTeacher().getUsername();
@@ -25,13 +24,6 @@ public class RequestDTO {
         this.responseDate=request.getResponseDate();
     }
 
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
 
     public String getStudentName() {
         return studentName;

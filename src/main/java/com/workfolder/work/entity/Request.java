@@ -18,7 +18,7 @@ public class Request {
     @ManyToOne
     private Lesson lesson;
     @Enumerated(EnumType.STRING)
-    private RequestStatus requestStatus;
+    private RequestStatus status;
     private LocalDateTime requestDate;
     private LocalDateTime responseDate;
 
@@ -30,7 +30,7 @@ public class Request {
         this.student=student;
         this.teacher=teacher;
         this.lesson=lesson;
-        this.requestStatus=RequestStatus.PENDING;
+        this.status=RequestStatus.PENDING;
         this.requestDate=LocalDateTime.now();
     }
 
@@ -67,11 +67,11 @@ public class Request {
     }
 
     public RequestStatus getRequestStatus() {
-        return requestStatus;
+        return status;
     }
 
     public void setRequestStatus(RequestStatus requestStatus) {
-        this.requestStatus = requestStatus;
+        this.status = requestStatus;
     }
 
     public LocalDateTime getRequestDate() {

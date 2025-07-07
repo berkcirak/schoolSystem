@@ -6,6 +6,7 @@ import com.workfolder.work.model.LessonDTO;
 import com.workfolder.work.repository.LessonRepository;
 import com.workfolder.work.repository.TeacherRepository;
 import com.workfolder.work.response.LessonResponse;
+import org.aspectj.apache.bcel.generic.RET;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -36,6 +37,9 @@ public class LessonService {
     public LessonDTO getLessonById(int lessonId){
         Lesson lesson = lessonRepository.findById(lessonId).orElseThrow(()->new RuntimeException("Lesson not found by id: "+lessonId));
         return new LessonDTO(lesson);
+    }
+    public Lesson getLessonByIdForRequestService(int lessonId){
+        return lessonRepository.findById(lessonId).orElseThrow(()->new RuntimeException("Lesson not found"));
     }
     public List<LessonResponse> getLessonsByTeacher(int teacherId){
         List<Lesson> lessonList = lessonRepository.findAllByTeacherId(teacherId);
