@@ -1,5 +1,6 @@
 package com.workfolder.work.entity;
 
+import com.workfolder.work.model.LessonDTO;
 import jakarta.persistence.*;
 
 import java.util.List;
@@ -18,6 +19,7 @@ public class Lesson {
     private List<Student> studentList;
 
     public Lesson(){}
+    public Lesson(LessonDTO lessonDTO){}
 
     public Teacher getTeacher() {
         return teacher;
