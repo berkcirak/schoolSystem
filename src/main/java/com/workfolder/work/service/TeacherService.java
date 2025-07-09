@@ -17,6 +17,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class TeacherService {
@@ -47,8 +48,11 @@ public class TeacherService {
     }
 
 
-    public List<Teacher> getTeachers() {
-        return teacherRepository.findAll();
+    public List<TeacherDTO> getTeachers() {
+        List<Teacher> teacherList = teacherRepository.findAll();
+        return teacherList.stream()
+                .map(TeacherDTO::new)
+                .collect(Collectors.toList());
     }
     public TeacherDTO updateTeacher(int teacherId, TeacherDTO teacherDTO){
         Teacher teacher = getAuthenticatedTeacher();

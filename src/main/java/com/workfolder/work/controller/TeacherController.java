@@ -31,7 +31,7 @@ public class TeacherController {
         return teacherService.verify(teacher);
     }
     @GetMapping("/list")
-    public List<Teacher> getTeachers(){
+    public List<TeacherDTO> getTeachers(){
         return teacherService.getTeachers();
     }
     @GetMapping("/{teacherId}")

@@ -33,7 +33,8 @@ public class RequestService {
         Student student = studentService.getAuthenticatedStudent();
         Lesson lesson = lessonService.getLessonByIdForRequestService(lessonId);
         Teacher teacher = lesson.getTeacher();
-        List<Request> existingRequest = requestRepository.findByStudentIdAndStatus(student.getId(), Request.RequestStatus.PENDING);
+
+        List<Request> existingRequest = requestRepository.findByStudentId(student.getId());
         boolean alreadyRequested = existingRequest.stream()
                 .anyMatch(request -> request.getLesson().getId() == lessonId);
         if (alreadyRequested){
