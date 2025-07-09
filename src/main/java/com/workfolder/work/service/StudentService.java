@@ -103,11 +103,19 @@ public class StudentService {
     }
 
     public String verify(Student student){
+        Student theStudent = studentRepository.findByUsername(student.getUsername());
+        if (theStudent == null){
+            throw new RuntimeException("Student not found by id: "+ theStudent.getUsername());
+        }
+        if (theStudent.getUserType() != User.UserType.STUDENT){
+            throw new RuntimeException("You are not have student role");
+        }
+
         Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(student.getUsername(), student.getPassword()));
         if (authentication.isAuthenticated()){
             return jwtService.generateToken(student.getUsername());
         }
-        return "fail";
+        return "Login failed";
     }
 
     public StudentDTO getStudentProfile(){

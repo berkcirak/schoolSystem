@@ -40,6 +40,13 @@ public class TeacherService {
 
 
     public String verify(Teacher teacher){
+        Teacher theTeacher = teacherRepository.findByUsername(teacher.getUsername());
+        if (theTeacher == null){
+            throw new RuntimeException("Teacher not found by username: "+ teacher.getUsername());
+        }
+        if (theTeacher.getUserType() != User.UserType.TEACHER){
+            throw new RuntimeException("You are not a teacher role");
+        }
         Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(teacher.getUsername(), teacher.getPassword()));
         if (authentication.isAuthenticated()){
             return jwtService.generateToken(teacher.getUsername());
