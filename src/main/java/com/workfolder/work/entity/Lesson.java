@@ -15,7 +15,7 @@ public class Lesson {
     private String name;
     @ManyToOne
     private Teacher teacher;
-    @ManyToMany
+    @ManyToMany(mappedBy = "lessonList")
     private List<Student> studentList;
 
     public Lesson(){}

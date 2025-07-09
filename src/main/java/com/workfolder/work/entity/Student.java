@@ -13,6 +13,9 @@ public class Student extends User{
     private Integer age;
     private String country;
     @ManyToMany
+    @JoinTable(name = "tbl_students_lesson_list",
+    joinColumns = @JoinColumn(name = "student_id"),
+    inverseJoinColumns = @JoinColumn(name = "lesson_id"))
     private List<Lesson> lessonList;
 
     public Student(){}

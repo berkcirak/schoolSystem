@@ -67,6 +67,9 @@ public class RequestService {
         if (request.getTeacher().getId() != teacher.getId()){
             throw new RuntimeException("You are not authorized to approve this request");
         }
+        if (request.getLesson().getStudentList().size() >= 5){
+            throw new RuntimeException("capacity is full");
+        }
         request.setRequestStatus(Request.RequestStatus.APPROVED);
         request.setResponseDate(LocalDateTime.now());
         Request updatedRequest = requestRepository.save(request);
