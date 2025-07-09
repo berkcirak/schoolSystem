@@ -4,7 +4,9 @@ import com.workfolder.work.entity.Lesson;
 import com.workfolder.work.entity.Student;
 import com.workfolder.work.entity.User;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class StudentDTO {
 
@@ -14,7 +16,7 @@ public class StudentDTO {
     private String lastName;
     private Integer age;
     private String country;
-    private List<Lesson> lessonList;
+    private List<LessonDTO> lessonList;
     private User.UserType userType;
 
     public StudentDTO(Student student){
@@ -24,7 +26,8 @@ public class StudentDTO {
         this.lastName=student.getLastName();
         this.password=student.getPassword();
         this.country=student.getCountry();
-        this.lessonList=student.getLessonList();
+        this.lessonList = student.getLessonList() != null
+                ? student.getLessonList().stream().map(LessonDTO::new).collect(Collectors.toList()) : new ArrayList<>();
         this.userType=student.getUserType();
     }
 
@@ -86,11 +89,11 @@ public class StudentDTO {
         this.country = country;
     }
 
-    public List<Lesson> getLessonList() {
+    public List<LessonDTO> getLessonList() {
         return lessonList;
     }
 
-    public void setLessonList(List<Lesson> lessonList) {
+    public void setLessonList(List<LessonDTO> lessonList) {
         this.lessonList = lessonList;
     }
 }

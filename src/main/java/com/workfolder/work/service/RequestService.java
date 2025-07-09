@@ -7,6 +7,7 @@ import com.workfolder.work.entity.Teacher;
 import com.workfolder.work.model.LessonDTO;
 import com.workfolder.work.model.RequestDTO;
 import com.workfolder.work.repository.RequestRepository;
+import com.workfolder.work.repository.StudentRepository;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -19,10 +20,12 @@ public class RequestService {
 
     private RequestRepository requestRepository;
     private StudentService studentService;
+    private StudentRepository studentRepository;
     private LessonService lessonService;
     private TeacherService teacherService;
-    public RequestService(StudentService studentService, LessonService lessonService, RequestRepository requestRepository, TeacherService teacherService){
+    public RequestService(StudentService studentService, StudentRepository studentRepository, LessonService lessonService, RequestRepository requestRepository, TeacherService teacherService){
         this.studentService=studentService;
+        this.studentRepository=studentRepository;
         this.lessonService=lessonService;
         this.requestRepository=requestRepository;
         this.teacherService=teacherService;
@@ -34,6 +37,9 @@ public class RequestService {
         Lesson lesson = lessonService.getLessonByIdForRequestService(lessonId);
         Teacher teacher = lesson.getTeacher();
 
+        if (lesson.getStudentList() != null && lesson.getStudentList().size() >= 5){
+            throw new RuntimeException("This lesson is full");
+        }
         List<Request> existingRequest = requestRepository.findByStudentId(student.getId());
         boolean alreadyRequested = existingRequest.stream()
                 .anyMatch(request -> request.getLesson().getId() == lessonId);
@@ -72,6 +78,7 @@ public class RequestService {
         }
         lessonList.add(request.getLesson());
         student.setLessonList(lessonList);
+        studentRepository.save(student);
         return new RequestDTO(updatedRequest);
     }
     //Reject request from teacher

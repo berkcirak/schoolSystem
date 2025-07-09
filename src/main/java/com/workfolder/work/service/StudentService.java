@@ -1,8 +1,10 @@
 package com.workfolder.work.service;
 
+import com.workfolder.work.entity.Lesson;
 import com.workfolder.work.entity.Student;
 import com.workfolder.work.entity.User;
 import com.workfolder.work.model.StudentDTO;
+import com.workfolder.work.repository.LessonRepository;
 import com.workfolder.work.repository.StudentRepository;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -21,10 +23,12 @@ public class StudentService {
     private StudentRepository studentRepository;
     private AuthenticationManager authenticationManager;
     private JWTService jwtService;
+    private LessonRepository lessonRepository;
     private BCryptPasswordEncoder bCryptPasswordEncoder;
-    public StudentService(StudentRepository studentRepository, JWTService jwtService,AuthenticationManager authenticationManager, BCryptPasswordEncoder bCryptPasswordEncoder){
+    public StudentService(StudentRepository studentRepository, LessonRepository lessonRepository, JWTService jwtService,AuthenticationManager authenticationManager, BCryptPasswordEncoder bCryptPasswordEncoder){
         this.studentRepository=studentRepository;
         this.jwtService=jwtService;
+        this.lessonRepository=lessonRepository;
         this.authenticationManager=authenticationManager;
         this.bCryptPasswordEncoder=bCryptPasswordEncoder;
     }
@@ -66,7 +70,11 @@ public class StudentService {
             theStudent.setLastName(studentDTO.getLastName());
         }
         if (studentDTO.getLessonList() != null){
-            theStudent.setLessonList(studentDTO.getLessonList());
+            List<Lesson> lessons = studentDTO.getLessonList()
+                    .stream().map(lessonDTO -> lessonRepository.findById(lessonDTO.getId())
+                            .orElseThrow(() -> new RuntimeException("Lesson not found by id: "+ lessonDTO.getId())))
+                    .collect(Collectors.toList());
+            theStudent.setLessonList(lessons);
         }
         if (studentDTO.getPassword() != null){
             theStudent.setPassword(bCryptPasswordEncoder.encode(studentDTO.getPassword()));
