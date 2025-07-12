@@ -13,6 +13,7 @@ public class TeacherDTO {
     private String password;
     private String firstName;
     private String lastName;
+    private String email;
     private Integer age;
     private String country;
     private User.UserType userType;
@@ -24,6 +25,7 @@ public class TeacherDTO {
         this.password= teacher.getPassword();
         this.firstName=teacher.getFirstName();
         this.lastName=teacher.getLastName();
+        this.email= teacher.getEmail();
         this.age=teacher.getAge();
         this.country=teacher.getCountry();
         this.userType=teacher.getUserType();
@@ -38,6 +40,14 @@ public class TeacherDTO {
 
     public List<String> getLessonList() {
         return lessonList;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
     }
 
     public void setLessonList(List<String> lessonList) {

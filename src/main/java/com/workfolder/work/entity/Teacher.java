@@ -10,21 +10,29 @@ public class Teacher extends User{
 
     private String firstName;
     private String lastName;
+    private String email;
     private Integer age;
     private String country;
     @OneToMany(mappedBy = "teacher")
     private List<Lesson> lessonList;
 
-    public Teacher(String firstName, String lastName, Integer age, String country, List<Lesson> lessonList) {
+    public Teacher(String firstName, String lastName, String email, Integer age, String country, List<Lesson> lessonList) {
         this.firstName = firstName;
         this.lastName = lastName;
+        this.email=email;
         this.age = age;
         this.country = country;
         this.lessonList = lessonList;
     }
     public Teacher(){}
 
+    public String getEmail() {
+        return email;
+    }
 
+    public void setEmail(String email) {
+        this.email = email;
+    }
 
     public String getFirstName() {
         return firstName;

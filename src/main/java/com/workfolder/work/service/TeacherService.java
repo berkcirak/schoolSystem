@@ -84,6 +84,9 @@ public class TeacherService {
         if (teacherDTO.getLastName() != null){
             teacher.setLastName(teacherDTO.getLastName());
         }
+        if (teacherDTO.getEmail() != null){
+            teacher.setEmail(teacher.getEmail());
+        }
         teacherRepository.save(teacher);
         return new TeacherDTO(teacher);
     }

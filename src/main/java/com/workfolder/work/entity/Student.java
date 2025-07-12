@@ -10,6 +10,8 @@ public class Student extends User{
 
     private String firstName;
     private String lastName;
+    @Column(unique = true)
+    private String email;
     private Integer age;
     private String country;
     @ManyToMany
@@ -20,9 +22,10 @@ public class Student extends User{
 
     public Student(){}
 
-    public Student(String firstName, String lastName, int age, String country, List<Lesson> lessonList) {
+    public Student(String firstName, String lastName, int age, String email, String country, List<Lesson> lessonList) {
         this.firstName = firstName;
         this.lastName = lastName;
+        this.email=email;
         this.age = age;
         this.country = country;
         this.lessonList = lessonList;
@@ -36,7 +39,17 @@ public class Student extends User{
         this.lessonList = lessonList;
     }
 
+    public String getEmail() {
+        return email;
+    }
 
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public void setAge(Integer age) {
+        this.age = age;
+    }
 
     public String getFirstName() {
         return firstName;

@@ -69,6 +69,9 @@ public class StudentService {
         if (studentDTO.getLastName() != null){
             theStudent.setLastName(studentDTO.getLastName());
         }
+        if (studentDTO.getEmail() != null){
+            theStudent.setEmail(studentDTO.getEmail());
+        }
         if (studentDTO.getLessonList() != null){
             List<Lesson> lessons = studentDTO.getLessonList()
                     .stream().map(lessonDTO -> lessonRepository.findById(lessonDTO.getId())

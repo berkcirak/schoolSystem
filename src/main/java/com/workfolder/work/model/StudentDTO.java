@@ -14,6 +14,7 @@ public class StudentDTO {
     private String password;
     private String firstName;
     private String lastName;
+    private String email;
     private Integer age;
     private String country;
     private List<LessonDTO> lessonList;
@@ -22,6 +23,7 @@ public class StudentDTO {
     public StudentDTO(Student student){
         this.username=student.getUsername();
         this.age=student.getAge();
+        this.email=student.getEmail();
         this.firstName=student.getFirstName();
         this.lastName=student.getLastName();
         this.password=student.getPassword();
@@ -40,6 +42,14 @@ public class StudentDTO {
     }
 
     public StudentDTO(){}
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
 
     public String getUsername() {
         return username;
