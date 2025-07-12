@@ -4,11 +4,9 @@ import com.workfolder.work.entity.Teacher;
 import com.workfolder.work.model.TeacherDTO;
 import com.workfolder.work.service.JWTService;
 import com.workfolder.work.service.TeacherService;
-import jakarta.persistence.PersistenceUnit;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Optional;
 
 @RestController
 @RequestMapping("/teacher")
