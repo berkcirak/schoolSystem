@@ -24,11 +24,13 @@ public class StudentService {
     private AuthenticationManager authenticationManager;
     private JWTService jwtService;
     private LessonRepository lessonRepository;
+    private KafkaProducerService kafkaProducerService;
     private BCryptPasswordEncoder bCryptPasswordEncoder;
-    public StudentService(StudentRepository studentRepository, LessonRepository lessonRepository, JWTService jwtService,AuthenticationManager authenticationManager, BCryptPasswordEncoder bCryptPasswordEncoder){
+    public StudentService(StudentRepository studentRepository, KafkaProducerService kafkaProducerService, LessonRepository lessonRepository, JWTService jwtService,AuthenticationManager authenticationManager, BCryptPasswordEncoder bCryptPasswordEncoder){
         this.studentRepository=studentRepository;
         this.jwtService=jwtService;
         this.lessonRepository=lessonRepository;
+        this.kafkaProducerService=kafkaProducerService;
         this.authenticationManager=authenticationManager;
         this.bCryptPasswordEncoder=bCryptPasswordEncoder;
     }
@@ -36,7 +38,9 @@ public class StudentService {
     public Student createStudent(Student student){
         student.setPassword(bCryptPasswordEncoder.encode(student.getPassword()));
         student.setUserType(User.UserType.STUDENT);
-        return studentRepository.save(student);
+        Student savedStudent = studentRepository.save(student);
+        kafkaProducerService.sendUserRegisteredEvent(savedStudent.getEmail(), savedStudent.getFirstName());
+        return savedStudent;
     }
     public List<StudentDTO> getStudents(){
         List<Student> students = studentRepository.findAll();
